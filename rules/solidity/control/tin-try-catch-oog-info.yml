@@ -1,0 +1,43 @@
+#####
+#
+#   @author: github.com/tintinweb
+#   @version: 0.1
+#
+##
+rules:
+  - id: tin-try-catch-oog-info
+    languages:
+      - solidity
+    metadata:
+      category: security
+      references: 
+        - https://github.com/tintinweb
+    message: |
+      (dblcheck) tryCatch quirks 
+      - pot. OOG in tryCatch may allow user to force catch path. 
+      - Check if `catch` performs any state changing operations.
+      (1) function might still revert if returnVal decode fails
+      (2) tryBlock will revert if assert/require fails
+      (3) selective OOG in subcall allows skipping of tryBlock
+    patterns:
+      - pattern: |
+            try ... {
+              ...
+            } catch {
+              ...
+            }
+    severity: WARNING
+  - id: tin-try-catch-dblcall-not-using-retval
+    languages:
+      - solidity
+    message: tryCatch not using returnval instead calling same function again. ⚠️ forced OOG.
+    patterns:
+      - pattern: |
+            try $EXTF(...) {
+              ...
+              $EXTF(...);
+              ...
+            } catch {
+              ...
+            }
+    severity: WARNING
