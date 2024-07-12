@@ -6,7 +6,7 @@ Rules:
 
 Rulesets:
 - Solidity
-- MetaMask (soon)
+- MetaMask Snaps - Hover Info
 
 [⇒ rules](./rules) - 👈🚀 Is the **active** ruleset. Be smart, use this ☝️<br>
 [⇒ _dev](./_dev) - 🧑‍🔬💥 Experimental rules. Would not use.

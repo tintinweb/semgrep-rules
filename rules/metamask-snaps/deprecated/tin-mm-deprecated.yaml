@@ -1,0 +1,39 @@
+rules:
+  - id: tin-mm-deprecated-wallet_enable
+    metadata:
+      category: best-practice
+      references:
+        - https://docs.metamask.io/snaps/learn/best-practices/security-guidelines/#avoid-using-deprecated-methods
+      technology:
+        - javascript
+        - typescript
+        - metamask
+    message: |
+      Avoid using the deprecated methods. 
+      `snap_confirm`, which is deprecated in favor of `snap_dialog`.
+    languages:
+      - typescript
+      - javascript
+    severity: WARNING
+    pattern-either:
+      - pattern: $FUNC(..., "wallet_enable", ...);
+      - pattern: <... {method:'wallet_enable'} ...>;
+  - id: tin-mm-deprecated-snap_confirm
+    metadata:
+      category: best-practice
+      references:
+        - https://docs.metamask.io/snaps/learn/best-practices/security-guidelines/#avoid-using-deprecated-methods
+      technology:
+        - javascript
+        - typescript
+        - metamask
+    message: |
+      Avoid using the deprecated methods. 
+      `snap_confirm`, which is deprecated in favor of `snap_dialog`.
+    languages:
+      - typescript
+      - javascript
+    severity: WARNING
+    pattern-either:
+      - pattern: $FUNC(..., "snap_confirm", ...);
+      - pattern: <... {method:'snap_confirm'} ...>;

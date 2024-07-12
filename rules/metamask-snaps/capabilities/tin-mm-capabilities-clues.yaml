@@ -1,0 +1,248 @@
+rules:
+  - id: tin-mm-capabilities-clue-onKeyringRequest
+    metadata:
+      category: best-practice
+      references:
+        - https://docs.metamask.io/snaps/learn/best-practices/security-guidelines/#avoid-using-deprecated-methods
+      technology:
+        - javascript
+        - typescript
+        - metamask
+    languages:
+      - typescript
+    severity: INFO
+    message: |
+      endowment:keyring: keyring whitelisted dapps can interact with snap; check origin, method permissions, and ensure runtime type/input validation for `request.params`. Method should fail with `throw MethodNotFoundError()` for unknown methods.
+    patterns:
+      - pattern: onKeyringRequest
+  - id: tin-mm-capabilities-clue-onRpcRequest
+    metadata:
+      category: best-practice
+      references:
+        - https://docs.metamask.io/snaps/learn/best-practices/security-guidelines/#avoid-using-deprecated-methods
+      technology:
+        - javascript
+        - typescript
+        - metamask
+    languages:
+      - typescript
+    severity: INFO
+    message: |
+      endowment:rpc.dapps - dapps can interact with snap; check origin, method permissions, and ensure runtime type/input validation for `request.params`. Method should fail with `throw MethodNotFoundError()` for unknown methods.
+    patterns:
+      - pattern: onRpcRequest
+  - id: tin-mm-capabilities-clue-onCronjob
+    metadata:
+      category: best-practice
+      references:
+        - https://docs.metamask.io/snaps/learn/best-practices/security-guidelines/#avoid-using-deprecated-methods
+      technology:
+        - javascript
+        - typescript
+        - metamask
+    languages:
+      - typescript
+    severity: INFO
+    message: |
+      Things to check for: xx,yy,zz
+    patterns:
+      - pattern: onCronjob
+  - id: tin-mm-capabilities-clue-onInstall
+    metadata:
+      category: best-practice
+      references:
+        - https://docs.metamask.io/snaps/learn/best-practices/security-guidelines/#avoid-using-deprecated-methods
+      technology:
+        - javascript
+        - typescript
+        - metamask
+    languages:
+      - typescript
+    severity: INFO
+    message: |
+      Things to check for: xx,yy,zz
+    patterns:
+      - pattern: onInstall
+  - id: tin-mm-capabilities-clue-onUpdate
+    metadata:
+      category: best-practice
+      references:
+        - https://docs.metamask.io/snaps/learn/best-practices/security-guidelines/#avoid-using-deprecated-methods
+      technology:
+        - javascript
+        - typescript
+        - metamask
+    languages:
+      - typescript
+    severity: INFO
+    message: |
+      Things to check for: xx,yy,zz
+    patterns:
+      - pattern: onUpdate
+  - id: tin-mm-capabilities-clue-onNameLookup
+    metadata:
+      category: best-practice
+      references:
+        - https://docs.metamask.io/snaps/learn/best-practices/security-guidelines/#avoid-using-deprecated-methods
+      technology:
+        - javascript
+        - typescript
+        - metamask
+    languages:
+      - typescript
+    severity: INFO
+    message: |
+      Things to check for: xx,yy,zz
+    patterns:
+      - pattern: onNameLookup
+  - id: tin-mm-capabilities-clue-onSignature
+    metadata:
+      category: best-practice
+      references:
+        - https://docs.metamask.io/snaps/learn/best-practices/security-guidelines/#avoid-using-deprecated-methods
+      technology:
+        - javascript
+        - typescript
+        - metamask
+    languages:
+      - typescript
+    severity: INFO
+    message: |
+      Things to check for: xx,yy,zz
+    patterns:
+      - pattern: onSignature
+  - id: tin-mm-capabilities-clue-onTransaction
+    metadata:
+      category: best-practice
+      references:
+        - https://docs.metamask.io/snaps/learn/best-practices/security-guidelines/#avoid-using-deprecated-methods
+      technology:
+        - javascript
+        - typescript
+        - metamask
+    languages:
+      - typescript
+    severity: INFO
+    message: |
+      Things to check for: xx,yy,zz
+    patterns:
+      - pattern: onTransaction
+  - id: tin-mm-capabilities-clue-onUserInput
+    metadata:
+      category: best-practice
+      references:
+        - https://docs.metamask.io/snaps/learn/best-practices/security-guidelines/#avoid-using-deprecated-methods
+      technology:
+        - javascript
+        - typescript
+        - metamask
+    languages:
+      - typescript
+    severity: INFO
+    message: |
+      Things to check for: xx,yy,zz
+    patterns:
+      - pattern: onUserInput
+  - id: tin-mm-capabilities-clue-fetch
+    metadata:
+      category: best-practice
+      references:
+        - https://docs.metamask.io/snaps/learn/best-practices/security-guidelines/
+      technology:
+        - javascript
+        - typescript
+        - metamask
+    languages:
+      - typescript
+    severity: WARNING
+    message: |
+      endowment:network-access: `fetch(x)` - check if connection is secure and no data is leaked (privacy, keys, ...).
+    patterns:
+      - pattern: fetch(...)
+  - id: tin-mm-capabilities-clue-ethereum
+    metadata:
+      category: best-practice
+      references:
+        - https://docs.metamask.io/snaps/learn/best-practices/security-guidelines/
+      technology:
+        - javascript
+        - typescript
+        - metamask
+    languages:
+      - typescript
+    severity: INFO
+    message: |
+      endowment:ethereum-provider: `ethereum.$X` - check how snap interacts with ethereum object.
+    patterns:
+      - pattern: ethereum.$X
+  - id: tin-mm-rpchandler-unchecked-origin
+    metadata:
+      category: best-practice
+      references:
+        - https://docs.metamask.io/snaps/learn/best-practices/security-guidelines/
+      technology:
+        - javascript
+        - typescript
+        - metamask
+    languages:
+      - typescript
+    message: Unchecked origin `$ORIGIN`.
+    severity: ERROR
+    patterns:
+      - pattern: |-
+          async ({
+            $ORIGIN,
+            $REQUEST,
+            ...
+          }) => {
+            ...
+          }
+      - pattern-not: |-
+          async ({
+            $ORIGIN,
+            $REQUEST,
+            ...
+          }) => {
+            ...
+            origin
+            ...
+          }
+      - metavariable-pattern:
+          metavariable: $ORIGIN
+          pattern: origin
+      - focus-metavariable: $ORIGIN
+  - id: tin-mm-rpchandler-methodnotfounderror
+    metadata:
+      category: best-practice
+      references:
+        - https://docs.metamask.io/snaps/learn/best-practices/security-guidelines/
+      technology:
+        - javascript
+        - typescript
+        - metamask
+    languages:
+      - typescript
+    severity: ERROR
+    message: RPC handler - unknown method should raise `MethodNotFoundError()`
+    patterns:
+      - pattern-inside: |-
+          async ({
+            $ORIGIN,
+            $REQUEST,
+            ...
+          }) => {
+            ...
+          }
+      - pattern: |-
+          switch ($METHOD) {
+            case ...:
+              ...
+          }
+      - pattern-not: |-
+          switch ($METHOD) {
+              case ...:
+                ...
+              default: 
+                throw new MethodNotFoundError($METHOD);
+            }
+      - focus-metavariable: $METHOD

@@ -1,0 +1,728 @@
+rules:
+  - id: tin-mm-manifest-deprecated-endowment_long-running
+    metadata:
+      category: best-practice
+      references:
+        - https://docs.metamask.io/snaps/learn/best-practices/security-guidelines/#avoid-using-deprecated-methods
+      technology:
+        - javascript
+        - typescript
+        - metamask
+    message: |
+      Avoid using the deprecated methods. 
+      endowment:long-running, which is deprecated for MetaMask stable but still allowed in MetaMask Flask.
+    languages:
+      - json
+    paths:
+      include: 
+        - snap.manifest.json
+        - .*/**/snap.manifest.json
+    severity: WARNING
+    patterns: 
+      - pattern: |
+          "endowment:long-running": { ... },
+      - pattern-inside: |
+            "initialPermissions": {
+              ...,
+            }  
+  - id: tin-mm-manifest-rpc-origins
+    metadata:
+      category: best-practice
+      references:
+        - https://docs.metamask.io/snaps/reference/permissions/#endowmentrpc
+      technology:
+        - javascript
+        - typescript
+        - metamask
+    message: |
+      `rpc.allowedOrigins`: development origin or insecure transport security (no https)
+    languages:
+      - json
+    paths:
+      include: 
+        - snap.manifest.json
+        - .*/**/snap.manifest.json
+    severity: WARNING
+    patterns: 
+      - pattern-inside: |
+          "initialPermissions": {
+            ...,
+          }
+      - pattern: |
+          "endowment:rpc": { 
+            ...,
+            "allowedOrigins": [ ..., $X, ... ],
+            ...
+          },
+      - metavariable-regex:
+          metavariable: $X
+          regex: .*(dev|beta|staging|internal|localhost|http:)
+      - focus-metavariable: $X
+  - id: tin-mm-manifest-keyring-origins
+    metadata:
+      category: best-practice
+      references:
+        - https://docs.metamask.io/snaps/reference/permissions/#endowmentkeyring
+      technology:
+        - javascript
+        - typescript
+        - metamask
+    message: |
+      `keyring.allowedOrigins`: development origin or insecure transport security (no https)
+    languages:
+      - json
+    paths:
+      include: 
+        - snap.manifest.json
+        - .*/**/snap.manifest.json
+    severity: WARNING
+    patterns: 
+      - pattern-inside: |
+          "initialPermissions": {
+            ...,
+          }
+      - pattern: |
+          "endowment:keyring": { 
+            ...,
+            "allowedOrigins": [ ..., $X, ... ],
+            ...
+          },
+      - metavariable-regex:
+          metavariable: $X
+          regex: .*(dev|beta|staging|internal|localhost|http:)
+      - focus-metavariable: $X
+  - id: tin-mm-manifest-initialConnections-origins
+    metadata:
+      category: best-practice
+      references:
+        - https://docs.metamask.io/snaps/reference/permissions/#endowmentrpc
+      technology:
+        - javascript
+        - typescript
+        - metamask
+    message: |
+      `initialConnects`: development origin or insecure transport security (no https)
+    languages:
+      - json
+    paths:
+      include: 
+        - snap.manifest.json
+        - .*/**/snap.manifest.json
+    severity: WARNING
+    patterns: 
+      - pattern: |
+          "initialConnections": { 
+            ...,
+            $X: {...},
+            ...
+          },
+      - metavariable-regex:
+          metavariable: $X
+          regex: .*(dev|beta|staging|internal|localhost|http:)
+      - focus-metavariable: $X
+  - id: tin-mm-manifest-initialConnections
+    metadata:
+      category: best-practice
+      references:
+        - https://docs.metamask.io/snaps/reference/permissions/#endowmentrpc
+      technology:
+        - javascript
+        - typescript
+        - metamask
+    message: |
+      `initialConnections`: auto connect origins on install
+    languages:
+      - json
+    paths:
+      include: 
+        - snap.manifest.json
+        - .*/**/snap.manifest.json
+    severity: INFO
+    patterns: 
+      - pattern: |
+            "$CONFIG": {
+              ...,
+            }  
+      - metavariable-regex:
+          metavariable: $CONFIG
+          regex: .?(initialConnections)
+      - focus-metavariable: $CONFIG
+  - id: tin-mm-manifest-endowment_keyring
+    metadata:
+      category: best-practice
+      references:
+        - https://docs.metamask.io/snaps/reference/permissions/#endowmentkeyring
+      technology:
+        - javascript
+        - typescript
+        - metamask
+    message: |
+      endowment:keyring: This permission grants a Snap access to Account Management API requests sent to the Snap, using the onKeyringRequest entry point.
+    languages:
+      - json
+    paths:
+      include: 
+        - snap.manifest.json
+        - .*/**/snap.manifest.json
+    severity: INFO
+    patterns: 
+      - pattern: |
+          "$ENDOWMENT": { ... },
+      - pattern-inside: |
+            "initialPermissions": {
+              ...,
+            }  
+      - metavariable-regex:
+          metavariable: $ENDOWMENT
+          regex: .?(endowment:keyring)
+      - focus-metavariable: $ENDOWMENT
+  - id: tin-mm-manifest-endowment_network-access
+    metadata:
+      category: best-practice
+      references:
+        - https://docs.metamask.io/snaps/reference/permissions/#endowmentnetwork-access
+      technology:
+        - javascript
+        - typescript
+        - metamask
+    message: |
+      endowment:network-access method may leak information to external api.
+    languages:
+      - json
+    paths:
+      include: 
+        - snap.manifest.json
+        - .*/**/snap.manifest.json
+    severity: INFO
+    patterns: 
+      - pattern: |
+          "$ENDOWMENT": { ... },
+      - pattern-inside: |
+            "initialPermissions": {
+              ...,
+            }  
+      - metavariable-regex:
+          metavariable: $ENDOWMENT
+          regex: .?(endowment:network-access)
+      - focus-metavariable: $ENDOWMENT
+  - id: tin-mm-manifest-endowment_ethereum-provider
+    metadata:
+      category: best-practice
+      references:
+        - https://docs.metamask.io/snaps/reference/permissions/#endowmentethereum-provider
+      technology:
+        - javascript
+        - typescript
+        - metamask
+    message: |
+      endowment:ethereum-provider: snap can access ethereum API
+    languages:
+      - json
+    paths:
+      include: 
+        - snap.manifest.json
+        - .*/**/snap.manifest.json
+    severity: INFO
+    patterns: 
+      - pattern: |
+          "$ENDOWMENT": { ... },
+      - pattern-inside: |
+            "initialPermissions": {
+              ...,
+            }  
+      - metavariable-regex:
+          metavariable: $ENDOWMENT
+          regex: .?(endowment:ethereum-provider)
+      - focus-metavariable: $ENDOWMENT
+  - id: tin-mm-manifest-endowment_transaction-insight
+    metadata:
+      category: best-practice
+      references:
+        - https://docs.metamask.io/snaps/reference/permissions/#endowmenttransaction-insight
+      technology:
+        - javascript
+        - typescript
+        - metamask
+    message: |
+      endowment:transaction-insight: snap gets access to transaction window/may protocol all transactions (infoleak)
+    languages:
+      - json
+    paths:
+      include: 
+        - snap.manifest.json
+        - .*/**/snap.manifest.json
+    severity: INFO
+    patterns: 
+      - pattern: |
+          "$ENDOWMENT": { ... },
+      - pattern-inside: |
+            "initialPermissions": {
+              ...,
+            }  
+      - metavariable-regex:
+          metavariable: $ENDOWMENT
+          regex: .?(endowment:transaction-insight)
+      - focus-metavariable: $ENDOWMENT
+  - id: tin-mm-manifest-endowment_signature-insight
+    metadata:
+      category: best-practice
+      references:
+        - https://docs.metamask.io/snaps/reference/permissions/#endowmentsignature-insight
+        - https://github.com/MetaMask/snaps/blob/ad0eae47f9c5d02e61abdc170cc7ee7e94e40c72/packages/snaps-rpc-methods/src/endowments/enum.ts
+      technology:
+        - javascript
+        - typescript
+        - metamask
+    message: |
+      endowment:signature-insight: xx 
+    languages:
+      - json
+    paths:
+      include: 
+        - snap.manifest.json
+        - .*/**/snap.manifest.json
+    severity: INFO
+    patterns: 
+      - pattern: |
+          "$ENDOWMENT": { ... },
+      - pattern-inside: |
+            "initialPermissions": {
+              ...,
+            }  
+      - metavariable-regex:
+          metavariable: $ENDOWMENT
+          regex: .?(endowment:signature-insight)
+      - focus-metavariable: $ENDOWMENT 
+  - id: tin-mm-manifest-endowment-webassembly
+    metadata:
+      category: best-practice
+      references:
+        - https://docs.metamask.io/snaps/reference/permissions/#endowmentwebassembly
+      technology:
+        - javascript
+        - typescript
+        - metamask
+    message: |
+      endowment:webassembly: TBD
+    languages:
+      - json
+    paths:
+      include: 
+        - snap.manifest.json
+        - .*/**/snap.manifest.json
+    severity: INFO
+    patterns: 
+      - pattern: |
+          "$ENDOWMENT": { ... },
+      - pattern-inside: |
+            "initialPermissions": {
+              ...,
+            }  
+      - metavariable-regex:
+          metavariable: $ENDOWMENT
+          regex: .?(endowment:webassembly)
+      - focus-metavariable: $ENDOWMENT
+  - id: tin-mm-manifest-endowment-cronjob
+    metadata:
+      category: best-practice
+      references:
+        - https://docs.metamask.io/snaps/reference/permissions/#endowmentcronjob
+      technology:
+        - javascript
+        - typescript
+        - metamask
+    message: |
+      endowment:cronjob: TBD
+    languages:
+      - json
+    paths:
+      include: 
+        - snap.manifest.json
+        - .*/**/snap.manifest.json
+    severity: INFO
+    patterns: 
+      - pattern: |
+          "$ENDOWMENT": { ... },
+      - pattern-inside: |
+            "initialPermissions": {
+              ...,
+            }  
+      - metavariable-regex:
+          metavariable: $ENDOWMENT
+          regex: .?(endowment:cronjob)
+      - focus-metavariable: $ENDOWMENT
+  - id: tin-mm-manifest-endowment-rpc
+    metadata:
+      category: best-practice
+      references:
+        - https://docs.metamask.io/snaps/reference/permissions/#endowmentrpc
+      technology:
+        - javascript
+        - typescript
+        - metamask
+    message: |
+      endowment:rpc: TBD
+    languages:
+      - json
+    paths:
+      include: 
+        - snap.manifest.json
+        - .*/**/snap.manifest.json
+    severity: INFO
+    patterns: 
+      - pattern: |
+          "$ENDOWMENT": { ... },
+      - pattern-inside: |
+            "initialPermissions": {
+              ...,
+            }  
+      - metavariable-regex:
+          metavariable: $ENDOWMENT
+          regex: .?(endowment:rpc)
+      - focus-metavariable: $ENDOWMENT
+  - id: tin-mm-manifest-endowment-name-lookup
+    metadata:
+      category: best-practice
+      references:
+        - https://docs.metamask.io/snaps/reference/permissions/
+      technology:
+        - javascript
+        - typescript
+        - metamask
+    message: |
+      endowment:name-lookup: TBD
+    languages:
+      - json
+    paths:
+      include: 
+        - snap.manifest.json
+        - .*/**/snap.manifest.json
+    severity: INFO
+    patterns: 
+      - pattern: |
+          "$ENDOWMENT": { ... },
+      - pattern-inside: |
+            "initialPermissions": {
+              ...,
+            }  
+      - metavariable-regex:
+          metavariable: $ENDOWMENT
+          regex: .?(endowment:name-lookup)
+      - focus-metavariable: $ENDOWMENT 
+  - id: tin-mm-manifest-endowment-lifecycle-hooks
+    metadata:
+      category: best-practice
+      references:
+        - https://docs.metamask.io/snaps/reference/permissions/#endowmentlifecycle-hooks
+      technology:
+        - javascript
+        - typescript
+        - metamask
+    message: |
+      endowment:lifecycle-hooks: TBD
+    languages:
+      - json
+    paths:
+      include: 
+        - snap.manifest.json
+        - .*/**/snap.manifest.json
+    severity: INFO
+    patterns: 
+      - pattern: |
+          "$ENDOWMENT": { ... },
+      - pattern-inside: |
+            "initialPermissions": {
+              ...,
+            }  
+      - metavariable-regex:
+          metavariable: $ENDOWMENT
+          regex: .?(endowment:lifecycle-hooks)
+      - focus-metavariable: $ENDOWMENT
+  - id: tin-mm-manifest-endowment-page-home
+    metadata:
+      category: best-practice
+      references:
+        - https://docs.metamask.io/snaps/reference/permissions/#endowmentpage-home
+      technology:
+        - javascript
+        - typescript
+        - metamask
+    message: |
+      endowment:page-homes: TBD
+    languages:
+      - json
+    paths:
+      include: 
+        - snap.manifest.json
+        - .*/**/snap.manifest.json
+    severity: INFO
+    patterns: 
+      - pattern: |
+          "$ENDOWMENT": { ... },
+      - pattern-inside: |
+            "initialPermissions": {
+              ...,
+            }  
+      - metavariable-regex:
+          metavariable: $ENDOWMENT
+          regex: .?(endowment:page-home)
+      - focus-metavariable: $ENDOWMENT 
+  - id: tin-mm-manifest-endowment-option-maxRequestTime
+    metadata:
+      category: best-practice
+      references:
+        - https://docs.metamask.io/snaps/reference/permissions/#snap-defined-timeouts
+      technology:
+        - javascript
+        - typescript
+        - metamask
+    message: |
+      maxRequestTime: Many endowments entail having MetaMask run arbitrary code defined in the Snap. The default execution timeout is 60000 milliseconds, or one minute.
+    languages:
+      - json
+    paths:
+      include: 
+        - snap.manifest.json
+        - .*/**/snap.manifest.json
+    severity: WARNING
+    patterns:
+      - pattern: '"maxRequestTime": $X'
+      - pattern-inside: |-
+          "$ENDOWMENT": {
+            ...,
+          }
+      - metavariable-regex:
+          metavariable: $ENDOWMENT
+          regex: .*(endowment:keyring)
+  - id: tin-mm-manifest-snap_getBip32PublicKey
+    metadata:
+      category: best-practice
+      references:
+        - https://docs.metamask.io/snaps/reference/permissions/
+      technology:
+        - javascript
+        - typescript
+        - metamask
+    message: |
+      snap_getBip32PublicKey: Gets the BIP-32 public key for the derivation path specified by the path parameter. Note that this returns the public key, not the extended public key (xpub), or Ethereum address.
+    languages:
+      - json
+    paths:
+      include: 
+        - snap.manifest.json
+        - .*/**/snap.manifest.json
+    severity: INFO
+    patterns: 
+      - pattern: |
+          "$PERM": [ ... ],
+      - pattern-inside: |
+            "initialPermissions": {
+              ...,
+            }  
+      - metavariable-regex:
+          metavariable: $PERM
+          regex: .?(snap_getBip32PublicKey)
+      - focus-metavariable: $PERM
+  - id: tin-mm-manifest-snap_getBip32Entropy
+    metadata:
+      category: best-practice
+      references:
+        - https://docs.metamask.io/snaps/reference/permissions/
+      technology:
+        - javascript
+        - typescript
+        - metamask
+    message: |
+      snap_getBip32Entropy: Gets the SLIP-10 key for the path and curve specified by the method name. If you call this method, you receive the user's parent key for the derivation path they request. You're managing the user's keys and assets on their behalf. Their safety is your responsibility.
+    languages:
+      - json
+    paths:
+      include: 
+        - snap.manifest.json
+        - .*/**/snap.manifest.json
+    severity: INFO
+    patterns: 
+      - pattern: |
+          "$PERM": [ ... ],
+      - pattern-inside: |
+            "initialPermissions": {
+              ...,
+            }  
+      - metavariable-regex:
+          metavariable: $PERM
+          regex: .?(snap_getBip32Entropy)
+      - focus-metavariable: $PERM
+  - id: tin-mm-manifest-snap_getBip44Entropy
+    metadata:
+      category: best-practice
+      references:
+        - https://docs.metamask.io/snaps/reference/permissions/
+      technology:
+        - javascript
+        - typescript
+        - metamask
+    message: |
+      snap_getBip44Entropy: Gets the BIP-44 coin_type key for the coin_type number specified by the method name. See SLIP-44 for the list of available protocols and their coin_type values. If you call this method, you receive the user's parent key for the protocol they request. You're managing the user's keys and assets on their behalf. Their safety is your responsibility.
+    languages:
+      - json
+    paths:
+      include: 
+        - snap.manifest.json
+        - .*/**/snap.manifest.json
+    severity: INFO
+    patterns: 
+      - pattern: |
+          "$PERM": [ ... ],
+      - pattern-inside: |
+            "initialPermissions": {
+              ...,
+            }  
+      - metavariable-regex:
+          metavariable: $PERM
+          regex: .?(snap_getBip44Entropy)
+      - focus-metavariable: $PERM
+  - id: tin-mm-manifest-snap_getEntropy
+    metadata:
+      category: best-practice
+      references:
+        - https://docs.metamask.io/snaps/reference/permissions/
+      technology:
+        - javascript
+        - typescript
+        - metamask
+    message: |
+      snap_getEntropy: Gets a deterministic 256-bit entropy value, specific to the snap and the user's account. You can use this entropy to generate a private key, or any other value that requires a high level of randomness. Other snaps can't access this entropy, and it changes if the user's secret recovery phrase changes.
+    languages:
+      - json
+    paths:
+      include: 
+        - snap.manifest.json
+        - .*/**/snap.manifest.json
+    severity: INFO
+    patterns: 
+      - pattern: |
+          "$PERM": { ... } ,
+      - pattern-inside: |
+            "initialPermissions": {
+              ...,
+            }  
+      - metavariable-regex:
+          metavariable: $PERM
+          regex: .?(snap_getEntropy)
+      - focus-metavariable: $PERM
+  - id: tin-mm-manifest-snap_manageState
+    metadata:
+      category: best-practice
+      references:
+        - https://docs.metamask.io/snaps/reference/permissions/
+      technology:
+        - javascript
+        - typescript
+        - metamask
+    message: |
+      snap_manageState: snap can store up to 100mb (isolated)
+    languages:
+      - json
+    paths:
+      include: 
+        - snap.manifest.json
+        - .*/**/snap.manifest.json
+    severity: INFO
+    patterns: 
+      - pattern: |
+          "$PERM": { ... },
+      - pattern-inside: |
+            "initialPermissions": {
+              ...,
+            }  
+      - metavariable-regex:
+          metavariable: $PERM
+          regex: .?(snap_manageState)
+      - focus-metavariable: $PERM
+  - id: tin-mm-manifest-snap_notify
+    metadata:
+      category: best-practice
+      references:
+        - https://docs.metamask.io/snaps/reference/permissions/
+      technology:
+        - javascript
+        - typescript
+        - metamask
+    message: |
+      snap_notify: Displays a notification in MetaMask or natively in the browser. Snaps can trigger a short notification text for actionable or time sensitive information.
+    languages:
+      - json
+    paths:
+      include: 
+        - snap.manifest.json
+        - .*/**/snap.manifest.json
+    severity: INFO
+    patterns: 
+      - pattern: |
+          "$PERM": { ... },
+      - pattern-inside: |
+            "initialPermissions": {
+              ...,
+            }  
+      - metavariable-regex:
+          metavariable: $PERM
+          regex: .?(snap_notify)
+      - focus-metavariable: $PERM 
+  - id: tin-mm-manifest-snap_dialog
+    metadata:
+      category: best-practice
+      references:
+        - https://docs.metamask.io/snaps/reference/permissions/
+      technology:
+        - javascript
+        - typescript
+        - metamask
+    message: |
+      snap_dialog: Displays a dialog in the MetaMask UI. There are three types of dialogs with different parameters and return types.
+    languages:
+      - json
+    paths:
+      include: 
+        - snap.manifest.json
+        - .*/**/snap.manifest.json
+    severity: INFO
+    patterns: 
+      - pattern: |
+          "$PERM": { ... },
+      - pattern-inside: |
+            "initialPermissions": {
+              ...,
+            }  
+      - metavariable-regex:
+          metavariable: $PERM
+          regex: .?(snap_dialog)
+      - focus-metavariable: $PERM 
+  - id: tin-mm-manifest-snap_manageAccounts
+    metadata:
+      category: best-practice
+      references:
+        - https://docs.metamask.io/snaps/reference/permissions/
+      technology:
+        - javascript
+        - typescript
+        - metamask
+    message: |
+      snap_manageAccounts: TBD
+    languages:
+      - json
+    paths:
+      include: 
+        - snap.manifest.json
+        - .*/**/snap.manifest.json
+    severity: INFO
+    patterns: 
+      - pattern: |
+          "$PERM": { ... },
+      - pattern-inside: |
+            "initialPermissions": {
+              ...,
+            }  
+      - metavariable-regex:
+          metavariable: $PERM
+          regex: .?(snap_manageAccounts)
+      - focus-metavariable: $PERM 
