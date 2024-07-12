@@ -1,4 +1,4 @@
-# 🥷✨ Semgrep Rules - for Security Pros
+# 🥷✨ Low Noise Semgrep Security Rules
 
 Rules:
 - ✅ Security relevant patterns only
