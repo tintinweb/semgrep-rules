@@ -7,8 +7,9 @@ Rules:
 Languages:
 - Solidity
 
-[⇒ rules/<language\>](./rules) - 👈🚀 Is the **active** ruleset. Be smart, use this ☝️<br>
-[⇒ _dev/<language\>](./_dev) - 🧑‍🔬💥 Experimental rules. Would not use.
+- [⇒ rules](./rules) - 👈🚀 Is the **active** ruleset. Be smart, use this ☝️<br>
+  - Solidity
+- [⇒ _dev](./_dev) - 🧑‍🔬💥 Experimental rules. Would not use.
 
 
 ## ✨ Integrations
@@ -30,9 +31,10 @@ tintin@:~/workspace/solidity/project-under-audit|⇒  semgrep --exclude="**mock*
    2. `semgrep.scan.configuration` 👉 `auto`, `/path_to_this_repo/rules`
 
 
-## ⭐ Contributors
+## ⭐ Credits
 
-Contribute, share your rules! 🤗❤️
+Contribute, share! 🤗❤️
 
 - [@tintinweb](https://github.com/tintinweb)
+- [decurity/semgrep-smart-contracts](https://github.com/Decurity/semgrep-smart-contracts)
 - [you? 🥹](https://github.com/tintinweb)
