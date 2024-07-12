@@ -4,12 +4,12 @@ Rules:
 - ✅ Security relevant patterns only
 - ❌ No performance, micro optimizations and other noise
 
-Languages:
+Rulesets:
 - Solidity
+- MetaMask (soon)
 
-- [⇒ rules](./rules) - 👈🚀 Is the **active** ruleset. Be smart, use this ☝️<br>
-  - Solidity
-- [⇒ _dev](./_dev) - 🧑‍🔬💥 Experimental rules. Would not use.
+[⇒ rules](./rules) - 👈🚀 Is the **active** ruleset. Be smart, use this ☝️<br>
+[⇒ _dev](./_dev) - 🧑‍🔬💥 Experimental rules. Would not use.
 
 
 ## ✨ Integrations
