@@ -1,0 +1,39 @@
+rules:
+  - id: tin-chainlink-vrf-handler-revert
+    languages:
+      - solidity
+    severity: WARNING
+    metadata:
+      category: security
+      technology:
+        - solidity
+      references:
+        - https://docs.chain.link/vrf/v2/security#dont-accept-bidsbetsinputs-after-you-have-made-a-randomness-request
+        - https://github.com/tintinweb
+    message: If your fulfillRandomWords() implementation reverts, the VRF service will not attempt to call it a second time. Make sure your contract logic does not revert. Consider simply storing the randomness and taking more complex follow-on actions in separate contract calls made by you, your users, or an Automation Node.
+    patterns:
+      - pattern: |-
+          function $FN(...) {...}
+      - metavariable-regex:
+          metavariable: $FN
+          regex: (^fulfillRandomWords$)
+      - focus-metavariable: $FN
+  - id: tin-chainlink-vrf-handler-inputs-after-random
+    languages:
+      - solidity
+    severity: WARNING
+    metadata:
+      category: security
+      technology:
+        - solidity
+      references:
+        - https://docs.chain.link/vrf/v2/security#dont-accept-bidsbetsinputs-after-you-have-made-a-randomness-request
+        - https://github.com/tintinweb
+    message: Don't accept bids/bets/inputs after you have made a randomness request.
+    patterns:
+      - pattern: |-
+          function $FN(...) {...}
+      - metavariable-regex:
+          metavariable: $FN
+          regex: (^fulfillRandomWords$)
+      - focus-metavariable: $FN
